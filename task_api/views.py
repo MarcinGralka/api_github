@@ -8,7 +8,18 @@ GITHUB_API_URL = 'https://api.github.com/search/repositories'
 def search_repositories(request):
     keyword = request.GET.get('keyword')
 
-    response = requests.get(GITHUB_API_URL, params={'q': keyword})
+    github_token = 'token'
+
+    params = {
+        'q': keyword
+    }
+    if github_token == 'token' or github_token == '':
+        response = requests.get(GITHUB_API_URL, params=params)
+    else:
+        headers = {
+            'Authorization': f'token {github_token}'
+        }
+        response = requests.get(GITHUB_API_URL, params=params, headers=headers)
 
     data = response.json()
     repositories = []
