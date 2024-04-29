@@ -8,6 +8,9 @@ GITHUB_API_URL = 'https://api.github.com/search/repositories'
 def search_repositories(request):
     keyword = request.GET.get('keyword')
 
+    if not keyword:
+        return JsonResponse({'error': 'Keyword parameter is required'}, status=400)
+
     github_token = 'token'
 
     params = {
